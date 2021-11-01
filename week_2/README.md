@@ -1,5 +1,7 @@
 # Week 2 HomeWork
 
+![](CleanBlog/img.jpg)
+
 ## My To-Do (Missing Parts)
 
 ### 1. Create env file
