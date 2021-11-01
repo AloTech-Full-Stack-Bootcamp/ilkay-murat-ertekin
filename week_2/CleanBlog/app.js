@@ -25,14 +25,17 @@ app.set("view engine", "ejs");
 app.use(express.json())
 app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
+// file upload packages from the express-fileupload
 app.use(fileUpload())
+
+// we use methodOverride package for the convert other methods
 app.use(
     methodOverride('_method',{
         methods:['POST','GET']
     })
 )
 
-
+// Check the request path
 app.use(function(req,res,next){ //
     console.log('Request:', req.path)
     next(); 
