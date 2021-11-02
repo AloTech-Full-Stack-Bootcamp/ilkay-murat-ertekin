@@ -1,15 +1,16 @@
 const express=require('express')
 const mongoose=require('mongoose')
 const fileUpload=require('express-fileupload')
+const dotenv=require('dotenv')
 const methodOverride = require('method-override');
 const Post=require('./models/Post')
 const PostController=require('./controller/postController')
 
 const app=express()
-
+dotenv.config()
 // Db Connect
 
-mongoose.connect('mongodb+srv://admin:admin@cluster0.9dcvf.mongodb.net/CleanBlog?retryWrites=true&w=majority',{
+mongoose.connect(process.env.CONNECTION_URL,{
     useNewUrlParser:true,
     useUnifiedTopology: true,
 }).then(()=> {
@@ -62,6 +63,6 @@ app.delete('/posts/:id',PostController.deletePost)
 
 
 // Listen Port
-app.listen(3000,()=>{
+app.listen(process.env.PORT|| 3000,()=>{
     console.log('Server Started')
 })
