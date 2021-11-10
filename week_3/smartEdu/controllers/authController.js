@@ -1,9 +1,9 @@
-const User = require("../model/users");
+const User = require("../model/user");
 const bcrypt = require("bcrypt");
 
 // Get All Users
 exports.getAlluser = async (req, res) => {
-  const user = await User.find({});
+  const user = await User.find({}).select("-__v +isAdmin");
   res.status(200).json({
     status: "success",
     message: "All users",
@@ -11,12 +11,11 @@ exports.getAlluser = async (req, res) => {
   });
 };
 // Create A user and response New User
-exports.createUser = async (req, res) => {
+exports.register = async (req, res) => {
   const newUser = await User.create({
     name: req.body.name,
     email: req.body.email,
     password: req.body.password,
-    role: req.body.role,
   });
   res.status(201).json({
     status: "Success",

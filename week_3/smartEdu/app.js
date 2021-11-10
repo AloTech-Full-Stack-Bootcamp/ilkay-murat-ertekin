@@ -5,7 +5,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 
 const courseRoute = require("./routes/courseRoute")
-const userRoute = require('./routes/userRoute')
+const userRoute = require('./routes/authRoute')
 
 app = express()
 dotenv.config()
@@ -31,12 +31,6 @@ app.use(session({
     saveUninitialized: true,
     store: MongoStore.create({ mongoUrl: process.env.mongoUrl })
 }))
-global.userIn = null;
-app.use('*', (req, res, next) => {
-    userIn = req.session.userId;
-    console.log(userIn)
-    next();
-});
 
 //Routing
 app.use('/courses', courseRoute)

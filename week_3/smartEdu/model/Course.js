@@ -20,6 +20,10 @@ const CourseSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  user:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:'user'
+  }
 });
 // Before the "validate", generate the slug from the course name
 CourseSchema.pre("validate", function (next) {

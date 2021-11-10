@@ -1,11 +1,11 @@
 const Course = require("../model/Course");
-const User = require("../model/users");
+const User = require("../model/user");
 
 // Get all Course
 exports.getAllCourses = async (req, res) => {
-  const course = await Course.find({});
+  const course = await Course.find({}).populate({path:"user",model:User});
   res.status(200).json({
-    course,
+    course
   });
 };
 
@@ -32,6 +32,7 @@ exports.createCourse = async (req, res) => {
         const course = await Course.create({
           name: req.body.name,
           description: req.body.description,
+          user:req.session.userId
         });
         res.status(201).json({
           status: "success",
