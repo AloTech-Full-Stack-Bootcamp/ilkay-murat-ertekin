@@ -1,30 +1,28 @@
 const express = require("express")
 const mongoose = require("mongoose")
-const dotenv=require('dotenv')
+const dotenv = require('dotenv')
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 
 const courseRoute = require("./routes/courseRoute")
-const userRoute=require('./routes/userRoute')
+const userRoute = require('./routes/userRoute')
 
 app = express()
 dotenv.config()
 
 
 mongoose.connect(process.env.mongoUrl
-    ,{
-        useNewUrlParser:true,
-        useUnifiedTopology:true
+    , {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
     }
-).then(()=>{
+).then(() => {
     console.log('DB CONNECTED!')
-}).catch((err)=>{
+}).catch((err) => {
     console.log(err)
 })
 
-
 // Middleware
-
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(session({
@@ -32,18 +30,15 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     store: MongoStore.create({ mongoUrl: process.env.mongoUrl })
-  }))
-
+}))
 global.userIn = null;
-
-app.use('*', (req, res, next)=> {
-    userIn = req.session.userId; 
+app.use('*', (req, res, next) => {
+    userIn = req.session.userId;
     console.log(userIn)
     next();
-  });
+});
 
 //Routing
-
 app.use('/courses', courseRoute)
 app.use('/auth', userRoute)
 
