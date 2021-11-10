@@ -1,5 +1,6 @@
 const express = require("express")
 const mongoose = require("mongoose")
+const dotenv=require('dotenv')
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 
@@ -7,9 +8,11 @@ const courseRoute = require("./routes/courseRoute")
 const userRoute=require('./routes/userRoute')
 
 app = express()
+dotenv.config()
 
-mongoose.connect(
-    "mongodb+srv://admin:admin@cluster0.9dcvf.mongodb.net/smartEdu?retryWrites=true&w=majority",{
+
+mongoose.connect(process.env.mongoUrl
+    ,{
         useNewUrlParser:true,
         useUnifiedTopology:true
     }
@@ -28,7 +31,7 @@ app.use(session({
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: true,
-    store: MongoStore.create({ mongoUrl: "mongodb+srv://admin:admin@cluster0.9dcvf.mongodb.net/smartEdu?retryWrites=true&w=majority" })
+    store: MongoStore.create({ mongoUrl: process.env.mongoUrl })
   }))
 
 global.userIn = null;
@@ -45,6 +48,6 @@ app.use('/courses', courseRoute)
 app.use('/auth', userRoute)
 
 
-app.listen(3000, () => {
+app.listen(process.env.PORT, () => {
     console.log("server started")
 })
