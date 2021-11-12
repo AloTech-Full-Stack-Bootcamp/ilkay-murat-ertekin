@@ -1,15 +1,7 @@
 const User = require("../model/user");
 const bcrypt = require("bcrypt");
 
-// Get All Users
-exports.getAlluser = async (req, res) => {
-  const user = await User.find({}).select("-__v +isAdmin");
-  res.status(200).json({
-    status: "success",
-    message: "All users",
-    user,
-  });
-};
+
 // Create A user and response New User
 exports.register = async (req, res) => {
   const newUser = await User.create({
@@ -25,7 +17,8 @@ exports.register = async (req, res) => {
 };
 // Login user and define session ID
 exports.loginUser = async (req, res) => {
-  const user = await User.findOne({ email: req.body.email });
+  const user = await User.findOne({ email: req.body.email }).select("+password");
+  
   if (user) {
     bcrypt.compare(req.body.password, user.password, (err, same) => {
       if (same) {

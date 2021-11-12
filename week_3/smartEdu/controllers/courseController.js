@@ -11,14 +11,7 @@ exports.getAllCourses = async (req, res) => {
 
 // Create Course
 exports.createCourse = async (req, res) => {
-  // If you are not logged in, you cannot create a course. login
-  if (req.session.userId === undefined) {
-    res.status(500).json({
-      status: "Failed",
-      message: "You Must login",
-    });
-    // If you are logged in, you can continue.
-  } else {
+ 
     // If course name is not unique, You can't create a course
     const course = await Course.find({ name: req.body.name });
     if (course.length >= 1) {
@@ -51,7 +44,7 @@ exports.createCourse = async (req, res) => {
       }
     }
   }
-};
+;
 
 // get One Course
 exports.getCourseBySlug = async (req, res) => {
@@ -94,7 +87,7 @@ exports.putCourse = async (req, res) => {
       });
     }
   } else {
-    res.status(403).json({
+    res.status(404).json({
       status: "Failed",
       message: "Something Wrong...",
     });
