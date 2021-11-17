@@ -23,7 +23,7 @@ const UserSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ["student", "teacher"],
+    enum: ["student", "teacher","admin"],
     default: "student",
     
   },
@@ -31,12 +31,7 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
     
-  },
-  isAdmin: {
-    type: Boolean,
-    default: false,
-    
-  },
+  }
 },{timestamps:true,versionKey:false});
 
 // Before the "save", hash the password
