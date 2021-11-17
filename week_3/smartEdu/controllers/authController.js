@@ -12,7 +12,9 @@ exports.register = async (req, res) => {
   res.status(201).json({
     status: "Success",
     message: "User Created",
-    newUser,
+    name:newUser.name,
+    email:newUser.email,
+    role:newUser.role
   });
 };
 // Login user and define session ID
