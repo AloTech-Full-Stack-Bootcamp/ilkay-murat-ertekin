@@ -19,6 +19,13 @@ exports.register = async (req, res) => {
 };
 // Login user and define session ID
 exports.loginUser = async (req, res) => {
+  
+  if(req.session.userId!==undefined){
+    res.status(400).json({
+      status:"Failed",
+      message:"You are already logged in"
+    })
+  }else{
   const user = await User.findOne({ email: req.body.email });
   
   if (user) {
@@ -43,13 +50,19 @@ exports.loginUser = async (req, res) => {
       message: "User is not Found",
     });
   }
-};
+}};
 
 //Logout User and Destroy Session ID
 exports.logoutUser = async (req, res) => {
+  if(req.session.userId!==undefined){
   req.session.destroy();
   res.status(200).json({
     status: "Success",
     message: "You logouted",
   });
-};
+}else{
+  res.status(400).json({
+    status:"Failed",
+    message:"You are not already logged in"
+  })
+}}
