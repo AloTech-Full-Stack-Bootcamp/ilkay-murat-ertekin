@@ -3,6 +3,7 @@ const mongoose = require("mongoose")
 const dotenv = require('dotenv')
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
+const cors =require('cors')
 
 const courseRoute = require("./routes/courseRoute")
 const userRoute = require('./routes/authRoute')
@@ -24,6 +25,10 @@ mongoose.connect(process.env.mongoUrl
 })
 
 // Middleware
+app.use(cors({
+    'origin':'*',
+    'allowedHeaders':['sessionId', 'Content-Type']
+}))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(session(
