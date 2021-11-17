@@ -10,13 +10,15 @@ exports.isAuthenticated = (req, res, next) => {
   next();
 };
 
-exports.isAdmin = (req, res, next) => {
-  const user = User.findById(req.session.userId);
-  if (user.isAdmin !== true) {
+// Role Permission
+exports.permRole=(role)=>{
+  return async (req,res,next)=>{
+  const user= await User.findById(req.session.userId)
+  if(!role.includes(user.role)){
     return res.status(403).json({
-      status: "Failed",
-      message: "You Are not Admin",
-    });
+      status:"Failed",
+      message:"Forbidden"
+    })
   }
-  next();
-};
+  next()
+}}
