@@ -3,11 +3,22 @@ const User = require("../model/user");
 
 // Get all Course
 exports.getAllCourses = async (req, res) => {
-  const course = await Course.find({}).populate({path:"user",model:User,select:{'password':0,'role':0,'isAdmin':0,'isActive':0}});
+  const course = await Course.find({}).select({'_id':0}).populate({
+    path:"user",model:User,
+    select:{'password':0,'role':0,'isActive':0,'createdAt':0,'updatedAt':0,'_id':0}});
+  if(course.length>0){
   res.status(200).json({
+    status:"Succes",
+    message:"All courses",
     course
+    
   });
-};
+}else{
+  res.status(404).json({
+    status:"Failed",
+    message:"There are no courses"
+  })
+}}
 
 // Create Course
 exports.createCourse = async (req, res) => {
@@ -30,11 +41,14 @@ exports.createCourse = async (req, res) => {
         res.status(201).json({
           status: "success",
           message: "Course Created",
-          data: course,
-          request: {
-            type: "GET",
-            url: "http://localhost:3000/courses",
-          },
+          data: {
+            name:course.name,
+            description:course.description,
+            slug:course.slug,
+            createdAt:course.createdAt
+
+          }
+          
         });
       } catch (err) {
         res.status(500).json({
@@ -48,12 +62,18 @@ exports.createCourse = async (req, res) => {
 
 // get One Course
 exports.getCourseBySlug = async (req, res) => {
-  const course = await Course.findOne({ slug: req.params.slug });
+  const course = await Course.findOne({ slug: req.params.slug }).populate({path:'user',model:User});
   if (course !== null) {
     res.status(200).json({
       status: "Success",
       message: "One Course By slug",
-      data: course,
+      data:{
+        name:course.name,
+        description:course.description,
+        teacher:course.user['name'],
+        createdAt:course.createdAt.toString(),
+        updatedAt:course.updatedAt.toString()
+      }
     });
   } else {
     res.status(404).json({
@@ -65,7 +85,7 @@ exports.getCourseBySlug = async (req, res) => {
 
 // Update One Course
 exports.putCourse = async (req, res) => {
-  const course = await Course.findOne({ slug: req.params.slug });
+  const course = await Course.findOne({ slug: req.params.slug }).populate({path:'user',model:User});
   // check if there is a course existing
   if (course !== null) {
     (course.name = req.body.name), (course.description = req.body.description);
@@ -83,13 +103,19 @@ exports.putCourse = async (req, res) => {
       res.status(201).json({
         status: "Success",
         message: "You changed something",
-        data: course,
+        data: {
+          name:course.name,
+          description:course.description,
+          teacher:course.user['name'],
+          createdAt:course.createdAt,
+          updatedAt:course.updatedAt
+        }
       });
     }
   } else {
     res.status(404).json({
       status: "Failed",
-      message: "Something Wrong...",
+      message: "Course Not Found",
     });
   }
 };
