@@ -1,17 +1,15 @@
 const express = require("express")
 const dotenv = require('dotenv')
-const MongoStore = require('connect-mongo');
-const cors = require('cors')
-
-const Config = require('./config')
-
+// Some server configure file
+const server = require('./server')
+// Routes
 const courseRoute = require("./routes/courseRoute")
 const userRoute = require('./routes/authRoute')
 const adminRoute = require('./routes/adminRoute')
 
 app = express()
-dotenv.config()
-Config()
+dotenv.config() // config for env file
+server.config() // config for server
 
 //Routing
 app.use('/courses', courseRoute)
