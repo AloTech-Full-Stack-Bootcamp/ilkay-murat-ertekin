@@ -4,8 +4,9 @@ const dotenv = require('dotenv')
 const server = require('./server')
 // Routes
 const courseRoute = require("./routes/courseRoute")
-const userRoute = require('./routes/authRoute')
+const authRoute = require('./routes/authRoute')
 const adminRoute = require('./routes/adminRoute')
+
 
 app = express()
 dotenv.config() // config for env file
@@ -13,7 +14,7 @@ server.config() // config for server
 
 //Routing
 app.use('/courses', courseRoute)
-app.use('/auth', userRoute)
+app.use('/auth', authRoute)
 app.use('/admin', adminRoute)
 
 
