@@ -7,8 +7,8 @@ const {isAuthenticated,permRole} = require('../middleware/permission')
 router.use('/',isAuthenticated,permRole(['admin'])) 
 // Admin Routing
 router.route("/users").get(adminController.getAlluser);
-router.route("/:id").delete(adminController.deleteUser);
-router.route("/:id").get(adminController.getUser);
+router.route("/user/:id").delete(adminController.deleteUser);
+router.route("/user/:id").get(adminController.getUser);
 
 
 
