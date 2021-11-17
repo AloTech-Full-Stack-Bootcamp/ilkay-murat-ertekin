@@ -16,15 +16,11 @@ const CourseSchema = new mongoose.Schema({
     type: String,
     unique: true,
   },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
   user:{
     type:mongoose.Schema.Types.ObjectId,
     ref:'user'
   }
-});
+},{timestamps:true,versionKey:false});
 // Before the "validate", generate the slug from the course name
 CourseSchema.pre("validate", function (next) {
   this.slug = slugify(this.name, {
