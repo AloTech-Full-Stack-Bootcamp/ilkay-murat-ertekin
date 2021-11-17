@@ -2,7 +2,7 @@ const User = require("../model/user");
 
 // Get All Users
 exports.getAlluser = async (req, res) => {
-    const user = await User.find({}).select("-__v +isAdmin +isActive +role");
+    const user = await User.find({});
     res.status(200).json({
       status: "success",
       message: "All users",
@@ -17,7 +17,7 @@ exports.deleteUser=async(req,res)=>{
             message:"you must Login"
         })
     }else{
-        const user= await User.findById(req.session.userId).select('+role +isAdmin +isActive')
+        const user= await User.findById(req.session.userId)
        if(user.isAdmin==true){
            const deletedUser= await User.findById(req.params.id)
            if(deletedUser!==null){

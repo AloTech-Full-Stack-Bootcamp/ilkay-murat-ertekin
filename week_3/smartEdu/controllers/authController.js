@@ -17,7 +17,7 @@ exports.register = async (req, res) => {
 };
 // Login user and define session ID
 exports.loginUser = async (req, res) => {
-  const user = await User.findOne({ email: req.body.email }).select("+password");
+  const user = await User.findOne({ email: req.body.email });
   
   if (user) {
     bcrypt.compare(req.body.password, user.password, (err, same) => {

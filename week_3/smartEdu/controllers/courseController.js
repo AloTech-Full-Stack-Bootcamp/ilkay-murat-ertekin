@@ -3,7 +3,7 @@ const User = require("../model/user");
 
 // Get all Course
 exports.getAllCourses = async (req, res) => {
-  const course = await Course.find({}).populate({path:"user",model:User});
+  const course = await Course.find({}).populate({path:"user",model:User,select:{'password':0,'role':0,'isAdmin':0,'isActive':0}});
   res.status(200).json({
     course
   });
