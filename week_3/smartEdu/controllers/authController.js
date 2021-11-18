@@ -11,7 +11,7 @@ exports.register = async (req, res) => {
   });
   res.status(201).json({
     status: "Success",
-    message: "User Created",
+    message: "User created",
     name:newUser.name,
     email:newUser.email,
     role:newUser.role
@@ -21,7 +21,7 @@ exports.register = async (req, res) => {
 exports.loginUser = async (req, res) => {
   
   if(req.session.userId!==undefined){
-    res.status(400).json({
+    res.status(409).json({
       status:"Failed",
       message:"You are already logged in"
     })
@@ -34,20 +34,20 @@ exports.loginUser = async (req, res) => {
         req.session.userId = user.id;
         res.status(200).json({
           status: "Success",
-          message: "you logined",
+          message: "You logined",
           session: req.session.userId,
         });
       } else {
         res.status(400).json({
           status: "Failed",
-          message: "Wrong Password",
+          message: "Wrong password",
         });
       }
     });
   } else {
     res.status(404).json({
       status: "Failed",
-      message: "User is not Found",
+      message: "User is not found",
     });
   }
 }};
@@ -61,7 +61,7 @@ exports.logoutUser = async (req, res) => {
     message: "You logouted",
   });
 }else{
-  res.status(400).json({
+  res.status(409).json({
     status:"Failed",
     message:"You are not already logged in"
   })
