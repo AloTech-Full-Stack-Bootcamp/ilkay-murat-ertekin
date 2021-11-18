@@ -5,7 +5,7 @@ const server = require('./server')
 // Routes
 const courseRoute = require("./routes/courseRoute")
 const authRoute = require('./routes/authRoute')
-const adminRoute = require('./routes/adminRoute')
+const userRoute = require('./routes/userRoute')
 
 
 app = express()
@@ -15,7 +15,7 @@ server.config() // config for server
 //Routing
 app.use('/courses', courseRoute)
 app.use('/auth', authRoute)
-app.use('/admin', adminRoute)
+app.use('/users', userRoute)
 
 
 app.listen(process.env.PORT, () => {
