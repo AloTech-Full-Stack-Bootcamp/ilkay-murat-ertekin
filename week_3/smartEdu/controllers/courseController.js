@@ -8,7 +8,7 @@ exports.getAllCourses = async (req, res) => {
     select:{'password':0,'role':0,'isActive':0,'createdAt':0,'updatedAt':0,'_id':0}});
   if(course.length>0){
   res.status(200).json({
-    status:"Succes",
+    status:"Success",
     message:"All courses",
     course
     
@@ -28,7 +28,7 @@ exports.createCourse = async (req, res) => {
     if (course.length >= 1) {
       res.status(409).json({
         status: "Failed",
-        message: "This Course existing",
+        message: "This course existing",
       });
     } else {
       // If course name is unique, You can go on.
@@ -39,8 +39,8 @@ exports.createCourse = async (req, res) => {
           user:req.session.userId
         });
         res.status(201).json({
-          status: "success",
-          message: "Course Created",
+          status: "Success",
+          message: "Course created",
           data: {
             name:course.name,
             description:course.description,
@@ -53,7 +53,7 @@ exports.createCourse = async (req, res) => {
       } catch (err) {
         res.status(500).json({
           err,
-          message: "Something Wrong..",
+          message: "Something wrong..",
         });
       }
     }
@@ -66,7 +66,7 @@ exports.getCourseBySlug = async (req, res) => {
   if (course !== null) {
     res.status(200).json({
       status: "Success",
-      message: "One Course By slug",
+      message: "One course by slug",
       data:{
         name:course.name,
         description:course.description,
@@ -78,7 +78,7 @@ exports.getCourseBySlug = async (req, res) => {
   } else {
     res.status(404).json({
       status: "Failed",
-      message: "Course Not Found",
+      message: "Course not found",
     });
   }
 };
@@ -115,7 +115,7 @@ exports.putCourse = async (req, res) => {
   } else {
     res.status(404).json({
       status: "Failed",
-      message: "Course Not Found",
+      message: "Course not found",
     });
   }
 };
@@ -126,10 +126,16 @@ exports.deleteCourse = async (req, res) => {
   // check if there is a course existing
   if (course !== null) {
     course.deleteOne();
-    res.status(201).json("course deleted");
+    res.status(201).json({
+      status:"Success",
+      message:"Course deleted"
+    });
   }
   // If no course..
   else {
-    res.status(500).json("Course Not Found");
+    res.status(404).json({
+      status:"Success",
+      message:"Course not found"
+    });
   }
 };
