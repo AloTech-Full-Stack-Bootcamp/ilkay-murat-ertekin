@@ -2,7 +2,7 @@ const User = require("../model/user");
 
 // Get All Users
 exports.getAlluser = async (req, res) => {
-    const user = await User.find({});
+    const user = await User.find({}).select({'password':0});
     res.status(200).json({
       status: "success",
       message: "All users",
@@ -16,7 +16,13 @@ exports.getAlluser = async (req, res) => {
     res.status(200).json({
         status:"Success",
         message:`User ${user.name}`,
-        user
+        user:{
+            id:user._id,
+            name:user.name,
+            email:user.email
+
+
+        }
     })
 }
 
