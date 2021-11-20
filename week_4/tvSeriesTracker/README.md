@@ -1,3 +1,3 @@
-# Tv Series Tracker HomeWork Complated
+# Tv Series Tracker HomeWork Completed
 
 ![](img/1.png)
