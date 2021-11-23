@@ -5,7 +5,7 @@ const User = require("../model/user");
 exports.getAllCourses = async (req, res) => {
   const course = await Course.find({}).select({'_id':0}).populate({
     path:"user",model:User,
-    select:{'password':0,'role':0,'isActive':0,'createdAt':0,'updatedAt':0,'_id':0}});
+    select:{'password':0,'role':0,'isActive':0,'createdAt':0,'updatedAt':0,'_id':0,'courses':0}});
   if(course.length>0){
   res.status(200).json({
     status:"Success",
@@ -37,7 +37,10 @@ exports.createCourse = async (req, res) => {
           name: req.body.name,
           description: req.body.description,
           user:req.session.userId
-        });
+        })
+        const user=await User.findById(req.session.userId)
+        user.courses.push(course._id)
+        user.save()
         res.status(201).json({
           status: "Success",
           message: "Course created",

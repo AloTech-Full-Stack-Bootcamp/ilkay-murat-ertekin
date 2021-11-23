@@ -2,7 +2,7 @@ const User = require("../model/user");
 
 // Get All Users
 exports.getAlluser = async (req, res) => {
-    const user = await User.find({}).select({'password':0});
+    const user = await User.find({}).select({'password':0}).populate('courses');
     res.status(200).json({
       status: "success",
       message: "All users",
