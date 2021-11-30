@@ -126,8 +126,16 @@ exports.putCourse = async (req, res) => {
 // Delete Course
 exports.deleteCourse = async (req, res) => {
   const course = await Course.findOne({ slug: req.params.slug });
+ 
+  
   // check if there is a course existing
   if (course !== null) {
+   const user= await User.find({courses:course._id}) 
+   user.map((i)=>{
+     i.courses.pull(course._id)
+     return i.save()
+    })
+   
     course.deleteOne();
     res.status(201).json({
       status:"Success",
