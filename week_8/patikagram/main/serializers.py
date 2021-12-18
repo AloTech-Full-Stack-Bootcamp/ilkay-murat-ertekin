@@ -12,12 +12,29 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'email']
 
 
+class PostSerializer(serializers.ModelSerializer):
+    created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+    author = serializers.SlugRelatedField(
+        slug_field='username',
+        read_only=True)
+
+    like_counts_comment = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Post
+        fields = ['id', 'image', 'author', 'content',
+                  '_likes_count', '_comments_count', 'created_at', 'like_counts_comment']
+
+    def get_like_counts_comment(self, obj):
+        return f"Likes: {obj._likes_count} / Comments: {obj._comments_count}"
+
+
 class LikeSerializer(serializers.ModelSerializer):
     created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
 
     class Meta:
         model = Like
-        fields = ['id', 'created_at', 'user', 'post']
+        fields = '__all__'
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -26,12 +43,3 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = '__all__'
-
-
-class PostSerializer(serializers.ModelSerializer):
-    created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
-
-    class Meta:
-        model = Post
-        fields = ['id', 'image', 'author', 'content',
-                  '_likes_count', '_comments_count', 'created_at']
