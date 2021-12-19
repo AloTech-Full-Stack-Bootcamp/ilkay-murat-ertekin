@@ -21,7 +21,7 @@ class PostsViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     @action(detail=True, methods=['get'])
-    def Like(self, request, pk=None):
+    def like(self, request, pk=None):
         post = self.get_object()
         qs = Like.objects.get_or_create(post=post, user=request.user)
         serializer = LikeSerializer(qs[0])
